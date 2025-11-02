@@ -1,6 +1,8 @@
 import { Navigate } from 'react-router-dom';
 import { ReactNode } from 'react';
 import { UserRole } from '@/types';
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import LoadingSpinner from './LoadingSpinner';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -8,15 +10,21 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
-  // TODO: Replace with actual auth state from context/hook
-  const isAuthenticated = false;
-  const userRole: UserRole = 'student';
+  const { user, userRole, isLoading } = useProtectedRoute(requiredRole);
 
-  if (!isAuthenticated) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
+
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole && !requiredRole.includes(userRole)) {
+  if (requiredRole && userRole && !requiredRole.includes(userRole)) {
     return <Navigate to="/" replace />;
   }
 
