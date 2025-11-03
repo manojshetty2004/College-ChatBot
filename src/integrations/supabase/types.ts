@@ -14,6 +14,103 @@ export type Database = {
   }
   public: {
     Tables: {
+      conversations: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      feedback: {
+        Row: {
+          comment: string | null
+          created_at: string
+          id: string
+          message_id: string | null
+          rating: number | null
+          user_id: string | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          message_id?: string | null
+          rating?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          message_id?: string | null
+          rating?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedback_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          attachments: string[] | null
+          content: string
+          conversation_id: string | null
+          id: string
+          sender_type: string
+          timestamp: string
+        }
+        Insert: {
+          attachments?: string[] | null
+          content: string
+          conversation_id?: string | null
+          id?: string
+          sender_type: string
+          timestamp?: string
+        }
+        Update: {
+          attachments?: string[] | null
+          content?: string
+          conversation_id?: string | null
+          id?: string
+          sender_type?: string
+          timestamp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
