@@ -189,20 +189,26 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
       // Show typing indicator
       setIsTyping(true);
 
-      // Simulate bot response (will be replaced with actual AI integration)
-      setTimeout(async () => {
-        const { error: botMsgError } = await supabase
-          .from('messages')
-          .insert({
-            conversation_id: currentConversation!.id,
-            content: 'This is a simulated response. AI integration will be added in Phase 7.',
-            sender_type: 'bot',
-          });
+      // Get AI response with knowledge base integration
+      const { aiService } = await import('@/services/aiService');
+      const aiResponse = await aiService.getEnhancedResponse(content, messages);
 
-        if (botMsgError) throw botMsgError;
-        setIsTyping(false);
-      }, 1500);
+      if (aiResponse.error) {
+        console.error('AI service error:', aiResponse.error);
+      }
 
+      // Add bot response
+      const { error: botMsgError } = await supabase
+        .from('messages')
+        .insert({
+          conversation_id: currentConversation!.id,
+          content: aiResponse.response,
+          sender_type: 'bot',
+        });
+
+      if (botMsgError) throw botMsgError;
+
+      setIsTyping(false);
       await loadConversations();
     } catch (error) {
       console.error('Error sending message:', error);

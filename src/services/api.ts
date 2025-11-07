@@ -1,9 +1,13 @@
 import { supabase } from '@/integrations/supabase/client';
-import { ApiResponse, ApiError } from '@/types';
+import { ApiResponse as TypeApiResponse, ApiError as TypeApiError } from '@/types';
 
 /**
  * Base API configuration and utility functions
  */
+
+// Re-export types for convenience
+export type ApiResponse<T> = TypeApiResponse<T>;
+export type ApiError = TypeApiError;
 
 /**
  * Standard error handler for API responses
