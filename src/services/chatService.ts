@@ -1,6 +1,8 @@
 import { supabase } from '@/integrations/supabase/client';
 import { Chat, Message, ApiResponse } from '@/types';
 import { handleApiError, createApiResponse, getCurrentUserId, PaginationParams, getPaginationRange } from './api';
+import { getSessionToken } from '@/utils/sessionToken';
+import { messageSchema } from '@/utils/validation';
 
 /**
  * Chat and Message Management Service
@@ -13,10 +15,15 @@ export const chatService = {
   async createConversation(title: string = 'New Conversation'): Promise<ApiResponse<Chat>> {
     try {
       const userId = await getCurrentUserId();
+      const sessionToken = getSessionToken();
       
       const { data, error } = await supabase
         .from('conversations')
-        .insert({ title, user_id: userId })
+        .insert({ 
+          title, 
+          user_id: userId,
+          session_token: !userId ? sessionToken : null
+        })
         .select()
         .single();
 
@@ -144,9 +151,15 @@ export const chatService = {
    */
   async createMessage(message: Omit<Message, 'id' | 'timestamp'>): Promise<ApiResponse<Message>> {
     try {
+      // Validate message content
+      const validationResult = messageSchema.safeParse(message.content);
+      if (!validationResult.success) {
+        throw new Error(validationResult.error.errors[0].message);
+      }
+
       const { data, error } = await supabase
         .from('messages')
-        .insert(message)
+        .insert({ ...message, content: validationResult.data })
         .select()
         .single();
 

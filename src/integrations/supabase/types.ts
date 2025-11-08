@@ -88,6 +88,7 @@ export type Database = {
           created_at: string
           id: string
           is_active: boolean
+          session_token: string | null
           title: string
           updated_at: string
           user_id: string | null
@@ -96,6 +97,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
+          session_token?: string | null
           title?: string
           updated_at?: string
           user_id?: string | null
@@ -104,6 +106,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean
+          session_token?: string | null
           title?: string
           updated_at?: string
           user_id?: string | null
