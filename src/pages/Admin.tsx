@@ -1,12 +1,13 @@
 import Layout from '@/components/Layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart, Users, MessageSquare, FileText, Calendar, Bell, Activity } from 'lucide-react';
+import { BarChart, Users, FileText, Calendar, Bell, Activity, BookOpen } from 'lucide-react';
 import AdminAnalytics from '@/components/admin/AdminAnalytics';
 import AdminUsers from '@/components/admin/AdminUsers';
 import AdminKnowledgeBase from '@/components/admin/AdminKnowledgeBase';
 import AdminEvents from '@/components/admin/AdminEvents';
 import AdminAnnouncements from '@/components/admin/AdminAnnouncements';
 import AdminAuditLogs from '@/components/admin/AdminAuditLogs';
+import AdminNotes from '@/components/admin/AdminNotes';
 
 const Admin = () => {
   return (
@@ -20,7 +21,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">
             <TabsTrigger value="analytics" className="gap-2">
               <BarChart className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
@@ -28,6 +29,10 @@ const Admin = () => {
             <TabsTrigger value="users" className="gap-2">
               <Users className="h-4 w-4" />
               <span className="hidden sm:inline">Users</span>
+            </TabsTrigger>
+            <TabsTrigger value="notes" className="gap-2">
+              <BookOpen className="h-4 w-4" />
+              <span className="hidden sm:inline">Notes</span>
             </TabsTrigger>
             <TabsTrigger value="knowledge" className="gap-2">
               <FileText className="h-4 w-4" />
@@ -53,6 +58,10 @@ const Admin = () => {
 
           <TabsContent value="users">
             <AdminUsers />
+          </TabsContent>
+
+          <TabsContent value="notes">
+            <AdminNotes />
           </TabsContent>
 
           <TabsContent value="knowledge">
