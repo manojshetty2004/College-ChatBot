@@ -556,10 +556,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👥 Team
 
 ### Development Team
-- **Project Lead**: [Name]
-- **Backend Developer**: [Name]
-- **Frontend Developer**: [Name]
-- **UI/UX Designer**: [Name]
+- **Project Lead**: [Manoj S]
+- **Backend Developer**: [Manoj Gowda B Y]
+- **Frontend Developer**: [Harshavardhan S]
+- **UI/UX Designer**: [Manoj S]
 
 ### Acknowledgments
 - DBIT College for project support
